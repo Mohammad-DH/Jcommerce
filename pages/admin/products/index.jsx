@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { PrismaClient } from "@prisma/client";
-import ValidateToken from "../../Repo/authentication/ValidateToken";
+import ValidateToken from "../../../Repo/authentication/ValidateToken";
 
 const prisma = new PrismaClient();
 
-export default function products({ products }) {
-  console.log(products);
-  return <div>products</div>;
+export default function Index({ products }) {
+  const [tab, settab] = useState("list");
+  switch (tab) {
+    case "list":
+      return "list";
+      break;
+    case "form":
+      return "Form";
+      break;
+    default:
+      return "!!!!!";
+      break;
+  }
 }
 
 export async function getServerSideProps({ req, res }) {

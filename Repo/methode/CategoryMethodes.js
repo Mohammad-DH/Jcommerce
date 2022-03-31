@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-
+// Categorys: [ { label: 'cat2', value: 1 } ],
 export async function AddCategoryAsync(Category, Product_Id) {
 
-    const { Name, Image } = Category
+    const { value, Name, Image } = Category
     let exist = await prisma.Category.findMany(
         {
             where: {
-                Name
+                Category_Id: value
             }
         }
     )

@@ -5,7 +5,7 @@ import { AddCategoryAsync } from '../methode/CategoryMethodes'
 const prisma = new PrismaClient()
 
 export const AddProductAsync = async (req, res, next) => {
-    const { Name, Description, MainImage, Types, Categorys } = req.body
+    const { Name, Description, MainImage, Types, Categorys, Gallery } = req.body
 
     let product = await prisma.Product.create({
         data: {

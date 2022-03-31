@@ -38,8 +38,8 @@ model Product {
   Description String 
   MainImage String
 
-  Categorys Category[]
-  Gallery Gallery[]
+  Categorys Category[] 
+  Gallery Gallery[] 
   Types Type[]
 
   Rates Rate[]
@@ -79,7 +79,7 @@ model Category {
   Category_Id Int @id @default(autoincrement()) @unique
   Name String
   Image String
-  Product Product[]
+  Product Product[] 
 }
 
 model Order {

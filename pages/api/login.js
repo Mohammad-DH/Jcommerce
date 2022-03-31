@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 export default async function handler(req, res) {
     const { PhoneNumber, Code } = req.body
 
-    if (Code.length == 6 && PhoneNumber.length == 11) {
+    if (Code && Code.length == 6 && PhoneNumber.length == 11) {
 
         let User = await prisma.User.findFirst({
             where: {
@@ -19,12 +19,12 @@ export default async function handler(req, res) {
         if (User) {
             const jwtToken = jsonwebtoken.sign({
                 data: User
-            }, process.env.JWTsecret, { expiresIn: '1h' });
+            }, process.env.JWTsecret, { expiresIn: '24h' });
 
             res.setHeader("Set-Cookie", cookie.serialize("jwtToken", jwtToken, {
                 httpOnly: true,
                 //secure
-                maxAge: 60 * 60,
+                maxAge: 60 * 60 * 24,
                 sameSite: "strict",
                 path: "/"
             }))

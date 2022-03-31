@@ -4,7 +4,6 @@ const prisma = new PrismaClient()
 export async function AddCategoryAsync(Category, Product_Id) {
 
     const { Name, Image } = Category
-    console.log(Category)
     let exist = await prisma.Category.findMany(
         {
             where: {
@@ -38,12 +37,12 @@ export async function AddCategoryAsync(Category, Product_Id) {
         )
 
     }
-    //when we have the category
-    else {
+    //when we have the category and Product_Id
+    else if (exist[0] && Product_Id) {
         let res = await prisma.Category.update(
             {
                 where: {
-                    Name
+                    Category_Id: exist[0].Category_Id
                 },
                 data: {
                     Product: { connect: { Product_Id: Product_Id } }

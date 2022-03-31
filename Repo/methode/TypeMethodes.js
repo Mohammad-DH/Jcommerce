@@ -43,7 +43,7 @@ export async function RemoveTypeAsync(Type_Id) {
 
 export async function UpdateTypeAsync(Type, Type_Id) {
     const { Name, Color, Price, Inventory } = Type
-    let Type = await prisma.Type.update(
+    let type = await prisma.Type.update(
         {
             where: {
                 Type_Id,
@@ -56,5 +56,5 @@ export async function UpdateTypeAsync(Type, Type_Id) {
             }
         }
     )
-    return Type;
+    return type;
 }

@@ -4,7 +4,7 @@ import addProduct from "./productAddFormMore/addProduct";
 import AddType from "./productAddFormMore/addType";
 import updateProduct from "./productAddFormMore/updateProduct";
 
-export default function AddForm({ obj, categorys, updateTabClose }) {
+export default function AddForm({ obj, categorys }) {
   const [Product_Id, setProduct_Id] = useState();
   const [Name, setName] = useState();
   const [Description, setDescription] = useState();
@@ -38,9 +38,6 @@ export default function AddForm({ obj, categorys, updateTabClose }) {
 
   return (
     <div className="addForm">
-      <div className="close">
-        <h2 onClick={updateTabClose()}>close</h2>
-      </div>
       <div className="detailForm">
         <input
           onChange={(e) => setName(e.target.value)}

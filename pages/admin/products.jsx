@@ -8,11 +8,12 @@ const prisma = new PrismaClient();
 
 export default function Products({ products, categorys }) {
   const [tab, settab] = useState("list");
-  console.log(products);
+
   return (
     <div className="products">
       <span onClick={() => settab("list")}>list</span>
       <span onClick={() => settab("add")}>add</span>
+
       {tab === "list" ? (
         <div className="List">
           {products.map((i) => (
@@ -21,10 +22,12 @@ export default function Products({ products, categorys }) {
             </div>
           ))}
         </div>
-      ) : (
+      ) : tab === "add" ? (
         <div className="Add">
-          <AddForm obj={products} categorys={categorys} />
+          <AddForm categorys={categorys} />
         </div>
+      ) : (
+        ""
       )}
       <style jsx>{`
         .List {

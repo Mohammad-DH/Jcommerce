@@ -10,6 +10,7 @@ export default function AddType({ setTypes, Types }) {
     var tempArr = Types;
     tempArr.push({ Name, Price, Color, Inventory });
     setTypes(tempArr);
+    console.log(Types);
   };
 
   return (

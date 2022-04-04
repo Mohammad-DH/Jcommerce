@@ -29,7 +29,6 @@ export default function Item({ obj }) {
         <p>{Description}</p>
       </div>
       <div className="controler">
-        <span>U</span>
         <span onClick={() => remove(Product_Id)}>X</span>
       </div>
       <style jsx>{`

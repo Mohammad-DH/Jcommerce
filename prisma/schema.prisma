@@ -90,6 +90,7 @@ model Order {
   Address_Id Int
   User User @relation(fields:[User_Id],references:[User_Id]) 
   User_Id Int
+  State String @default("waiting")
 }
 
 model ProductPack {

@@ -10,7 +10,7 @@ const updateProduct = async (
     Gallery
 ) => {
 
-    await axios.post("/api/product/add", {
+    await axios.post("/api/product/update", {
         Product_Id,
         Name,
         Description,

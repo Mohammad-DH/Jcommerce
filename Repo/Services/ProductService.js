@@ -7,18 +7,28 @@ const prisma = new PrismaClient()
 export const AddProductAsync = async (req, res, next) => {
     const { Name, Description, MainImage, Types, Categorys, Gallery } = req.body
 
-    let product = await prisma.Product.create({
-        data: {
+
+    let exist = await prisma.Product.findMany({
+        where: {
             Name,
-            Description,
-            MainImage,
         }
     })
 
-    Types.map(async T => await AddTypeAsync(T, product.Product_Id))
-    Categorys.map(async C => await AddCategoryAsync(C, product.Product_Id))
+    if (!exist[0]) {
+        let product = await prisma.Product.create({
+            data: {
+                Name,
+                Description,
+                MainImage,
+            }
+        })
 
-    return product;
+        Types.map(async T => await AddTypeAsync(T, product.Product_Id))
+        Categorys.map(async C => await AddCategoryAsync(C, product.Product_Id))
+
+        return product;
+    }
+    return "there is another product with this name";
 }
 export const UpdateProductAsync = async (req, res, next) => {
     const { Product_Id, Name, Description, MainImage } = req.body

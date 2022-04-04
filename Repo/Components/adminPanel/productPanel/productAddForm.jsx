@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import addProduct from "./productAddFormMore/addProduct";
 import AddType from "./productAddFormMore/addType";
+import updateProduct from "./productAddFormMore/updateProduct";
 
-export default function AddForm({ obj, categorys }) {
+export default function AddForm({ obj, categorys, updateTabClose }) {
   const [Product_Id, setProduct_Id] = useState();
   const [Name, setName] = useState();
   const [Description, setDescription] = useState();
@@ -21,7 +22,7 @@ export default function AddForm({ obj, categorys }) {
     });
     setCat(tempArr);
     /* if its for updating */
-    if (obj.Product_Id) {
+    if (obj && obj.Product_Id) {
       setProduct_Id(obj.Product_Id);
       setName(obj.Name);
       setDescription(obj.Description);
@@ -37,6 +38,9 @@ export default function AddForm({ obj, categorys }) {
 
   return (
     <div className="addForm">
+      <div className="close">
+        <h2 onClick={updateTabClose()}>close</h2>
+      </div>
       <div className="detailForm">
         <input
           onChange={(e) => setName(e.target.value)}
@@ -90,7 +94,6 @@ export default function AddForm({ obj, categorys }) {
         <input placeholder="image!" type="file" />
         <input type="file" />
       </div>
-
       <style jsx>{`
         .addForm {
           width: 100%;

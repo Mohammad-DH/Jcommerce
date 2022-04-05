@@ -1,4 +1,5 @@
 import axios from "axios";
+import Link from "next/link";
 import React from "react";
 
 const remove = async (Product_Id) => {
@@ -29,7 +30,23 @@ export default function Item({ obj }) {
         <p>{Description}</p>
       </div>
       <div className="controler">
-        <span onClick={() => remove(Product_Id)}>X</span>
+        <Link
+          href={{
+            pathname: `products/update`,
+            query: {
+              Product_Id,
+              Name,
+              Description,
+              MainImage,
+              Categorys,
+              Gallery,
+              Types,
+            },
+          }}
+        >
+          U
+        </Link>
+        ;<span onClick={() => remove(Product_Id)}>X</span>
       </div>
       <style jsx>{`
         .Item {

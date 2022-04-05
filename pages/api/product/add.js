@@ -1,6 +1,11 @@
 import ValidateToken from '../../../Repo/authentication/ValidateToken';
 import { AddProductAsync } from '../../../Repo/Services/ProductService';
 
+export const config = {
+    api: {
+        bodyParser: false,
+    }
+};
 
 export default async function handler(req, res) {
     let token = req.cookies.jwtToken;
@@ -8,7 +13,6 @@ export default async function handler(req, res) {
 
     if (user && user.data.Admin === true) {
         await AddProductAsync(req, res)
-        console.log(req.body)
         res.status(200).json({ mess: "ok" })
         return
     }

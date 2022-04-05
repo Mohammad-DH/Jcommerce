@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 
-export default function AddType({ setTypes, Types }) {
+export default function AddType({ add }) {
   const [Name, setName] = useState();
   const [Price, setPrice] = useState();
   const [Color, setColor] = useState();
   const [Inventory, setInventory] = useState();
-
-  const add = () => {
-    var tempArr = Types;
-    tempArr.push({ Name, Price, Color, Inventory });
-    setTypes(tempArr);
-    console.log(Types);
-  };
 
   return (
     <div className="typeForm">
@@ -39,7 +32,7 @@ export default function AddType({ setTypes, Types }) {
         placeholder="تعداد در انبار"
         type="number"
       />
-      <span onClick={add}>ADD</span>
+      <span onClick={() => add(Name, Price, Color, Inventory)}>ADD</span>
     </div>
   );
 }

@@ -1,39 +1,62 @@
 import React, { useEffect, useState } from "react";
+import { PrismaClient } from "@prisma/client";
+import ValidateToken from "../../../Repo/authentication/ValidateToken";
 import { MultiSelect } from "react-multi-select-component";
-import addProduct from "./productAddFormMore/addProduct";
-import AddType from "./productAddFormMore/addType";
-import updateProduct from "./productAddFormMore/updateProduct";
+import AddType from "../../../Repo/Components/adminPanel/productPanel/productAddForm/addType";
+import addProduct from "../../../Repo/Components/adminPanel/productPanel/productAddForm/addProduct";
 
-export default function AddForm({ obj, categorys }) {
+const prisma = new PrismaClient();
+
+export default function Products({ categorys }) {
+  //image upload
+  const [createObjectURL, setCreateObjectURL] = useState(null);
+  //form states
   const [Product_Id, setProduct_Id] = useState();
   const [Name, setName] = useState();
   const [Description, setDescription] = useState();
-  const [MainImage, setMainImage] = useState("fake");
+  const [MainImage, setMainImage] = useState();
   const [Gallery, setGallery] = useState("fake");
   const [Types, setTypes] = useState([]);
-
+  //category list and selected category
   const [Cat, setCat] = useState([]);
   const [selected, setSelected] = useState([]);
+  //just for refresh
+  const [Refresh, setRefresh] = useState(0);
 
+  //add new type
+  const addType = (Name, Price, Color, Inventory) => {
+    var tempArr = Types;
+    let exist = false;
+
+    tempArr.forEach((e) => {
+      if (e.Name === Name) {
+        exist = "true";
+      }
+    });
+
+    if (exist === false) {
+      tempArr.push({ Name, Price, Color, Inventory });
+      setTypes(tempArr);
+      setRefresh(Refresh + 1);
+    }
+  };
+
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+
+      setMainImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+    }
+  };
+
+  //set data
   useEffect(() => {
     var tempArr = [];
     categorys.map((e) => {
       tempArr.push({ label: e.Name, value: e.Category_Id });
     });
     setCat(tempArr);
-    /* if its for updating */
-    if (obj && obj.Product_Id) {
-      setProduct_Id(obj.Product_Id);
-      setName(obj.Name);
-      setDescription(obj.Description);
-      setMainImage(obj.MainImage);
-      setGallery(obj.Gallery);
-      setTypes(obj.Types);
-      obj.Categorys.map((e) => {
-        tempArr.push({ label: e.Name, value: e.Category_Id });
-      });
-      setSelected(tempArr);
-    }
   }, []);
 
   return (
@@ -58,38 +81,23 @@ export default function AddForm({ obj, categorys }) {
           placeholder="توضیحات کالا"
         />
 
-        <AddType Types={Types} setTypes={setTypes} />
-        <br />
-        <br />
-        <br />
+        <AddType add={addType} />
+
+        {Types.map((e, index) => {
+          return <h1 key={index}>{e.Name}</h1>;
+        })}
         <h3
           onClick={() =>
-            Product_Id
-              ? updateProduct(
-                  Product_Id,
-                  Name,
-                  Description,
-                  MainImage,
-                  Types,
-                  selected,
-                  Gallery
-                )
-              : addProduct(
-                  Name,
-                  Description,
-                  MainImage,
-                  Types,
-                  selected,
-                  Gallery
-                )
+            addProduct(Name, Description, MainImage, Types, selected, Gallery)
           }
         >
-          {Product_Id ? "update" : "new product"}
+          new product
         </h3>
       </div>
       <div className="imageForm">
-        <input placeholder="image!" type="file" />
-        <input type="file" />
+        <img src={createObjectURL} />
+        <h4>Select Image</h4>
+        <input type="file" name="myImage" onChange={uploadToClient} />
       </div>
       <style jsx>{`
         .addForm {
@@ -122,4 +130,17 @@ export default function AddForm({ obj, categorys }) {
       `}</style>
     </div>
   );
+}
+
+export async function getServerSideProps({ req, res }) {
+  let token = req.cookies.jwtToken;
+
+  if (token) {
+    let user = await ValidateToken(token);
+    if (user.data.Admin == true) {
+      let categorys = await prisma.category.findMany({});
+      return { props: { categorys: categorys } };
+    }
+  }
+  return { props: { products: "404" } };
 }

@@ -1,12 +1,13 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 import { AddTypeAsync } from '../methode/TypeMethodes'
 import { AddCategoryAsync } from '../methode/CategoryMethodes'
+import { ProductImageUpload } from './UploadImage'
+
 
 const prisma = new PrismaClient()
 
 export const AddProductAsync = async (req, res, next) => {
-    const { Name, Description, MainImage, Types, Categorys, Gallery } = req.body
-
+    // const { Name, Description, MainImage, Types, Categorys, Gallery } = req.body
 
     let exist = await prisma.Product.findMany({
         where: {
@@ -22,6 +23,8 @@ export const AddProductAsync = async (req, res, next) => {
                 MainImage,
             }
         })
+
+        ProductImageUpload(req)
 
         Types.map(async T => await AddTypeAsync(T, product.Product_Id))
         Categorys.map(async C => await AddCategoryAsync(C, product.Product_Id))

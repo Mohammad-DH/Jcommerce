@@ -70,7 +70,7 @@ model Type {
   Price String
   Inventory Int 
 
-  Product Product @relation(fields:[Product_Id],references:[Product_Id])
+  Product Product @relation(fields:[Product_Id],references:[Product_Id],onDelete: Cascade)
   Product_Id Int 
   ProductPack ProductPack[]
 }

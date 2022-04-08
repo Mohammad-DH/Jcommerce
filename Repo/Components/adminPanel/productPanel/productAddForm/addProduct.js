@@ -14,8 +14,10 @@ const addProduct = async (
 
     form.append('Name', Name);
     form.append('Description', Description);
-    form.append('Types', Types);
-    form.append('Categorys', Categorys);
+
+    form.append("Types", JSON.stringify(Types))
+    form.append("Categorys", JSON.stringify(Categorys))
+
     form.append("MainImage", MainImage);
     form.append("Gallery", Gallery);
     axios({

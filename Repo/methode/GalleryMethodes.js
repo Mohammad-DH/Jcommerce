@@ -25,7 +25,7 @@ const saveFile = async (file) => {
 };
 
 
-export default async function AddGalleryAsync(Gallery, Product_Id) {
+export async function AddGalleryAsync(Gallery, Product_Id) {
 
     const { Image } = Gallery
 
@@ -50,7 +50,7 @@ export default async function AddGalleryAsync(Gallery, Product_Id) {
     }
 }
 
-export default async function RemoveGalleryAsync(Gallery_Id) {
+export async function RemoveGalleryAsync(Gallery_Id) {
     let Gallery = await prisma.Gallery.delete(
         {
             where: {

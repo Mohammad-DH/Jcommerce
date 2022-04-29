@@ -1,9 +1,7 @@
-import axios from "axios";
-
 export default function Home() {
   return (
     <div>
-      Reborn
+      new architcture
     </div>
   )
 }

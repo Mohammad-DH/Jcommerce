@@ -1,4 +1,5 @@
 import ValidateToken from '../../../Repo/authentication/ValidateToken';
+import Revalidate from '../../../Repo/methode/Revalidation';
 import { AddProductAsync } from '../../../Repo/Services/ProductService';
 
 export const config = {

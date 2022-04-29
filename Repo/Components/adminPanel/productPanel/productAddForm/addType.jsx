@@ -22,12 +22,6 @@ export default function AddType({ add }) {
         placeholder="قیمت"
         type="text"
       />
-      {/* <input
-        defaultValue={Color}
-        onChange={(e) => setColor(e.target.value)}
-        placeholder="رنگ"
-        type="text"
-      /> */}
       <input
         defaultValue={Inventory}
         onChange={(e) => setInventory(parseInt(e.target.value))}

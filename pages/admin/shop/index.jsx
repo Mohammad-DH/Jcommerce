@@ -2,6 +2,7 @@ import React from "react";
 import { PrismaClient } from "@prisma/client";
 import ValidateToken from "../../../Repo/authentication/ValidateToken";
 import Item from "../../../Repo/Components/adminPanel/productPanel/productItem";
+import Link from "next/link";
 
 const prisma = new PrismaClient();
 
@@ -10,14 +11,26 @@ export default function Products({ products }) {
     return "404";
   } else {
     return (
-      <div className="List">
-        {products.map((i) => (
-          <div className="Item" key={i.Product_Id}>
-            <Item obj={i} />
-          </div>
-        ))}
+      <div className="adminShop">
+        <div className="addNewBtn">
+          <Link href="/admin/shop/add">add new product</Link>
+        </div>
 
+        <div className="List">
+          {products.map((i) => (
+            <div className="Item" key={i.Product_Id}>
+              <Item obj={i} />
+            </div>
+          ))}
+        </div>
         <style jsx>{`
+          .addNewBtn {
+            width: fit-content;
+            background-color: greenyellow;
+            padding: 1rem 1.5rem;
+            margin: 1rem;
+            border-radius: 10px;
+          }
           .List {
             width: 100%;
             display: flex;

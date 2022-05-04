@@ -127,6 +127,9 @@ export default function Products({ categorys }) {
           width: 25%;
           height: 90%;
         }
+        .imageForm img {
+          width: 100%;
+        }
       `}</style>
     </div>
   );

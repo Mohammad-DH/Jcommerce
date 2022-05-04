@@ -1,4 +1,4 @@
-import AdminLayout from '../Repo/Components/AdminLayout'
+import AdminLayout from '../Repo/Components/adminPanel/AdminLayout'
 import UserLayout from '../Repo/Components/UserLayout'
 import '../styles/globals.css'
 import { useRouter } from 'next/router'

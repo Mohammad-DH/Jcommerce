@@ -42,7 +42,7 @@ const saveFile = async (file) => {
     const oldPath = file.filepath;
     let newPath = `./public/${file.originalFilename}`
     fs.rename(oldPath, newPath, function (err) { })
-    return newPath;
+    return file.originalFilename;
 };
 
 

@@ -19,7 +19,7 @@ export default function Item({ obj }) {
 
   return (
     <div className="Item">
-      <img src="" alt="" />
+      <img src={`/${MainImage}`} alt="" />
       <div className="texts">
         <div className="header">
           <h3>{Name}</h3>
@@ -32,7 +32,7 @@ export default function Item({ obj }) {
       <div className="controler">
         <Link
           href={{
-            pathname: `products/update`,
+            pathname: `shop/update`,
             query: {
               Product_Id,
               Name,

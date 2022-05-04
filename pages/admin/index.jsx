@@ -8,12 +8,6 @@ export default function Index({ user }) {
       <div>
         <h1>welcome to admin panel</h1>
         <h2>{user}</h2>
-        <div className="navbar">
-          <Link href="/admin/products">products</Link>
-          <br />
-          <Link href="/login">login</Link>
-        </div>
-        <div className=""></div>
       </div>
     );
   } else {

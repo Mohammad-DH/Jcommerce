@@ -1,9 +1,10 @@
 import React from "react";
+import AdminHeader from "./header/AdminHeader";
 
 export default function AdminLayout({ children }) {
   return (
     <div>
-      <div>AdminLayout</div>
+      <AdminHeader />
       {children}
     </div>
   );

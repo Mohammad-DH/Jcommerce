@@ -3,15 +3,16 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlserver"
-  url      = "sqlserver://localhost:1433;initial Catalog=jcommerce;integratedSecurity=true;trustServerCertificate=true;"
+  provider = "mysql"
+  url      = "mysql://root:syncmaster1898@localhost:3306/Jcommerce"
 }
+
 model User {
   User_Id Int @id @default(autoincrement()) @unique
-  FirstName String 
-  LastName String 
+  FirstName String? 
+  LastName String? 
   PhoneNumber String @unique
-  Email String
+  Email String?
   Admin Boolean @default(false)
   Code String?
 

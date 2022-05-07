@@ -15,7 +15,11 @@ export default async function handler(req, res) {
 
     } else {
 
-        User = AddUserAsync(req.body.PhoneNumber)
+        User = await AddUserAsync(req.body.PhoneNumber)
+        setTimeout(() => {
+            console.log("cleaned")
+            RemoveUserCodeAsync(User.User_Id)
+        }, 120000);
         //sms
         res.status(200).json({ mess: "user created and code has been sent" })
 

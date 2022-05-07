@@ -6,6 +6,9 @@ export async function AddUserAsync(PhoneNumber) {
     let user = await prisma.User.create(
         {
             data: {
+                FirstName:"",
+                LastName:"",
+                Email:"",
                 PhoneNumber,
                 Code: Math.floor(100000 + Math.random() * 900000).toString()
             }

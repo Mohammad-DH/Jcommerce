@@ -7,7 +7,6 @@ export default function Index({ user }) {
     return (
       <div>
         <h1>welcome to admin panel</h1>
-        <h2>{user}</h2>
       </div>
     );
   } else {
@@ -21,11 +20,20 @@ export default function Index({ user }) {
 
 export async function getServerSideProps({ req, res }) {
   let token = req.cookies.jwtToken;
-
+  console.log(1)
   if (token) {
+    console.log(2)
     let user = await ValidateToken(token);
-    return { props: { user: user.data.FirstName } };
+    console.log(user)
+    if (user.data.Admin === true){
+      console.log(3)
+      return { props: { user: user.data } };
+    }
+    console.log(4)
+    console.log(user.data.Admin)
+    return { props: { mess: "not a admin" } };
   } else {
+    console.log(6)
     return { props: { mess: 404 } };
   }
 }

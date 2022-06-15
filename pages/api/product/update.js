@@ -1,4 +1,4 @@
-import ValidateToken from '../../../Repo/authentication/ValidateToken';
+import ValidateToken from '../../../Repo/Methodes/authentication/ValidateToken';
 import { UpdateProductAsync } from '../../../Repo/Services/ProductService';
 
 

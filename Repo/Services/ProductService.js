@@ -1,75 +1,64 @@
-import { PrismaClient } from '@prisma/client'
-import { AddTypeAsync } from '../methode/TypeMethodes'
-import { AddCategoryAsync } from '../methode/CategoryMethodes'
-import { IncomingForm } from 'formidable'
-import fs from 'fs'
+import { PrismaClient } from "@prisma/client";
+import { ScreenshotAsync } from "./Screenshot";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export const AddProductAsync = async (req, res, next) => {
-    const form = new IncomingForm();
-    form.parse(req, async function (err, fields, files) {
-        let { Name, Description, Types, Categorys } = fields
-        Types = JSON.parse(Types)
-        Categorys = JSON.parse(Categorys)
+  console.log(req.body);
+  let { Name, Description, SelectedCategory, Price, PriceWithUs, Link } =
+    req.body;
 
-        let exist = await prisma.Product.findMany({
-            where: {
-                Name,
-            }
-        })
+  let exist = await prisma.Product.findMany({
+    where: {
+      OR: [{ Name }, { Link }],
+    },
+  });
 
-        if (!exist[0]) {
-            let MainImage = await saveFile(files.MainImage);
-            let product = await prisma.Product.create({
-                data: {
-                    Name,
-                    Description,
-                    MainImage,
-                }
-            })
-            Types.map(async T => await AddTypeAsync(T, product.Product_Id))
-            Categorys.map(async C => await AddCategoryAsync(C, product.Product_Id))
+  if (!exist[0]) {
+    let imagePath = await ScreenshotAsync(Link);
 
-            return product;
-        }
-    })
+    let product = await prisma.Product.create({
+      data: {
+        Name,
+        Description,
+        Image: imagePath,
+        Price: Price,
+        PriceWithUs: PriceWithUs,
+        Link,
+        CategoryId: parseInt(SelectedCategory),
+      },
+    });
 
-    return "there is another product with this name";
-}
+    return product;
+  }
 
-const saveFile = async (file) => {
-    const oldPath = file.filepath;
-    let newPath = `./public/${file.originalFilename}`
-    fs.rename(oldPath, newPath, function (err) { })
-    return file.originalFilename;
+  return "there is another product with this name";
 };
 
-
 export const UpdateProductAsync = async (req, res, next) => {
-    const { Product_Id, Name, Description, MainImage } = req.body
+  const { Product_Id, Name, Description } = req.body;
 
-    let product = await prisma.Product.update({
-        where: {
-            Product_Id
-        },
-        data: {
-            Name,
-            Description,
-            MainImage,
-        }
-    })
+  let product = await prisma.Product.update({
+    where: {
+      Product_Id,
+    },
+    data: {
+      Name,
+      Description,
+    },
+  });
 
-    return product;
-}
-export const DeletProductAsync = async (req, res, next) => {
-    const { Product_Id } = req.body
+  return product;
+};
 
-    let product = await prisma.Product.delete({
-        where: {
-            Product_Id
-        }
-    })
+export const DeleteProductAsync = async (req, res, next) => {
+  const { Product_Id } = req.body;
 
-    return product;
-}
+  let product = await prisma.Product.delete({
+    where: {
+      Product_Id,
+    },
+  });
+
+  return product;
+};

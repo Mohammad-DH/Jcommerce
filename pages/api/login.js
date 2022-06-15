@@ -28,8 +28,12 @@ export default async function handler(req, res) {
                 sameSite: "strict",
                 path: "/"
             }))
+            if (User.Admin === true){
+                res.status(200).json({ redirect:"/admin" })
+            }else{
+                res.status(200).json({ redirect:"/" })
+            }
 
-            res.status(200).json({ mess: "welcome" })
             return
         }
 

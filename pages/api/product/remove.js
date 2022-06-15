@@ -1,5 +1,5 @@
-import ValidateToken from '../../../Repo/authentication/ValidateToken';
-import { DeletProductAsync } from '../../../Repo/Services/ProductService';
+import ValidateToken from '../../../Repo/Methodes/authentication/ValidateToken';
+import {DeleteProductAsync} from '../../../Repo/Services/ProductService';
 
 
 export default async function handler(req, res) {
@@ -7,10 +7,10 @@ export default async function handler(req, res) {
     let user = await ValidateToken(token);
 
     if (user && user.data.Admin === true) {
-        await DeletProductAsync(req)
-        res.status(200).json({ mess: "ok" })
+        await DeleteProductAsync(req)
+        res.status(200).json({mess: "ok"})
         return
     }
 
-    res.status(200).json({ mess: "not ok" })
+    res.status(200).json({mess: "not ok"})
 }

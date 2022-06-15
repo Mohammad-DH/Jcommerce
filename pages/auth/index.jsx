@@ -1,9 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, {useState} from "react";
+import { useRouter } from 'next/router'
 
 export default function Login() {
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [Code, setCode] = useState("");
+
+  const router = useRouter()
 
   const auth = async (PN) => {
     await axios.post("/api/auth", { PhoneNumber: PN });
@@ -12,6 +15,11 @@ export default function Login() {
     await axios.post("/api/login", {
       PhoneNumber: PN,
       Code: code,
+    }).then((res)=>{
+      if (res.status === 200){
+        console.log(res)
+        router.push(res.data.redirect)
+      }
     });
   };
 

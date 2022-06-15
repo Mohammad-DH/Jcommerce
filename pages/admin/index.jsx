@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import ValidateToken from "../../Repo/authentication/ValidateToken";
+import ValidateToken from "../../Repo/Methodes/authentication/ValidateToken";
 
 export default function Index({ user }) {
   if (user) {

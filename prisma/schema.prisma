@@ -16,64 +16,21 @@ model User {
   Admin Boolean @default(false)
   Code String?
 
-  Addresses Address[]
   Orders Order[]
-  Cart Cart?
-  Comments Comment[]
-  Rates Rate[]
-}
-
-model Address {
-  Address_Id Int @id @default(autoincrement()) @unique
-  FullAddress String 
-  PostNumber String 
-
-  User User @relation(fields: [User_Id],references: [User_Id])
-  User_Id Int
-  Orders Order[] 
 }
 
 model Product {
   Product_Id Int @id @default(autoincrement()) @unique 
   Name String @unique
-  Description String 
-  MainImage String
-
-  Categorys Category[] 
-  Gallery Gallery[] 
-  Types Type[]
-
-  Rates Rate[]
-  ProductPack ProductPack[]
-  Comments Comment[]
-}
-model Rate {
-  Rate_Id Int @id @default(autoincrement()) @unique 
-  Rate Int
-
-  Product Product @relation(fields: [Product_Id],references:[Product_Id])
-  Product_Id Int
-  User User @relation(fields:[User_Id],references:[User_Id]) 
-  User_Id Int
-}
-model Gallery {
-  Gallery_Id Int @id @default(autoincrement()) @unique
-  Image String @unique
-  
-  Product Product @relation(fields:[Product_Id],references:[Product_Id])
-  Product_Id Int 
-}
-
-model Type {
-  Type_Id Int @id @default(autoincrement()) @unique
-  Name String  
-  Color String 
+  Description String @db.VarChar(600)
+  Image String
   Price String
-  Inventory Int 
+  PriceWithUs String
+  Link String @unique
 
-  Product Product @relation(fields:[Product_Id],references:[Product_Id],onDelete: Cascade)
-  Product_Id Int 
-  ProductPack ProductPack[]
+  Category Category @relation(fields: [CategoryId], references: [Category_Id])
+  CategoryId Int
+  Orders Order[]
 }
 
 model Category {
@@ -85,43 +42,9 @@ model Category {
 
 model Order {
   Order_Id Int @id @default(autoincrement()) @unique
-  Products ProductPack[]
+  Product  Product @relation(fields: [ProductId], references: [Product_Id])
+  ProductId Int
 
-  Address Address @relation(fields:[Address_Id],references:[Address_Id],onUpdate: NoAction)
-  Address_Id Int
-  User User @relation(fields:[User_Id],references:[User_Id]) 
-  User_Id Int
-  State String @default("waiting")
-}
-
-model ProductPack {
-  ProductPack_Id Int @id @default(autoincrement()) @unique
-  Count Int
-
-  Type Type @relation(fields:[Type_Id],references:[Type_Id],onUpdate:NoAction)
-  Type_Id Int
-  Product Product @relation(fields:[Product_Id],references:[Product_Id])
-  Product_Id Int
-  Order Order @relation(fields:[Order_Id],references:[Order_Id],onUpdate:NoAction)
-  Order_Id Int
-  Cart Cart @relation(fields:[Cart_Id],references:[Cart_Id],onUpdate:NoAction)
-  Cart_Id Int
-}
-
-model Comment {
-  Comment_Id Int @id @default(autoincrement()) @unique
-  Like Int
-
-  Product Product @relation(fields:[Product_Id],references:[Product_Id])
-  Product_Id Int
-  User User @relation(fields:[User_Id],references:[User_Id])
-  User_Id Int
-}
-
-model Cart{
-  Cart_Id Int @id @default(autoincrement()) @unique
-
-  Products ProductPack[]
   User User @relation(fields:[User_Id],references:[User_Id]) 
   User_Id Int
 }

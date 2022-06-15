@@ -1,8 +1,7 @@
-import AdminLayout from '../Repo/Components/adminPanel/AdminLayout'
-import UserLayout from '../Repo/Components/UserLayout'
-import '../styles/globals.css'
-import { useRouter } from 'next/router'
-
+import AdminLayout from "../Repo/Components/Admin/AdminLayout";
+import UserLayout from "../Repo/Components/User/UserLayout";
+import "../styles/globals.css";
+import { useRouter } from "next/router";
 
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -12,14 +11,12 @@ export default function MyApp({ Component, pageProps }) {
       <AdminLayout>
         <Component {...pageProps} />
       </AdminLayout>
-    )
-  }
-  else {
+    );
+  } else {
     return (
       <UserLayout>
         <Component {...pageProps} />
       </UserLayout>
-    )
+    );
   }
-
 }

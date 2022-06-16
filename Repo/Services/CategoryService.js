@@ -1,87 +1,66 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-// Categorys: [ { label: 'cat2', value: 1 } ],
-export async function AddCategoryAsync(Category, Product_Id) {
+import { PrismaClient } from "@prisma/client";
+import IncomingForm from "formidable/src/Formidable";
+const prisma = new PrismaClient();
 
-    const { value, Name, Image } = Category
-    let exist = await prisma.Category.findMany(
-        {
-            where: {
-                Category_Id: value
-            }
-        }
-    )
+import mv from "mv";
 
-    //when we have no product Id and this is a new category
-    if (!exist[0] && !Product_Id) {
-        let res = await prisma.Category.create(
-            {
-                data: {
-                    Name,
-                    Image,
-                }
-            }
-        )
+export const AddCategoryAsync = async (req, res, next) => {
+  const form = new IncomingForm();
+  form.parse(req, async function (err, fields, files) {
+    let { Name } = fields;
 
+    let exist = await prisma.Category.findMany({
+      where: {
+        Name,
+      },
+    });
+
+    if (!exist[0]) {
+      let Image = await saveFile(files.Image);
+      let Category = await prisma.Category.create({
+        data: {
+          Name,
+          Image,
+        },
+      });
+
+      return Category;
     }
-    //when we have product Id and this is a new category
-    else if (!exist[0]) {
-        let res = await prisma.Category.create(
-            {
-                data: {
-                    Name,
-                    Image,
-                    Product: { connect: { Product_Id: Product_Id } }
-                }
-            }
-        )
+  });
 
-    }
-    //when we have the category and Product_Id
-    else if (exist[0] && Product_Id) {
-        let res = await prisma.Category.update(
-            {
-                where: {
-                    Category_Id: exist[0].Category_Id
-                },
-                data: {
-                    Product: { connect: { Product_Id: Product_Id } }
-                }
-            }
-        )
-    }
-}
+  return "there is another product with this name";
+};
+
+const saveFile = async (file) => {
+  const oldPath = file.filepath;
+  let newPath = `./public/CategoryIcons/${file.originalFilename}`;
+  mv(oldPath, newPath, function (err) {
+    err && console.log(err);
+  });
+  return file.originalFilename;
+};
 
 export async function UpdateCategoryAsync(Category) {
+  const { Category_Id, Name, Image } = Category;
 
-    const { Category_Id, Name, Image } = Category
-
-    let res = await prisma.Category.update(
-        {
-            where: {
-                Category_Id
-            },
-            data: {
-                Name,
-                Image
-            }
-        }
-    )
+  let res = await prisma.Category.update({
+    where: {
+      Category_Id,
+    },
+    data: {
+      Name,
+      Image,
+    },
+  });
 }
 export async function RemoveCategoryAsync(Category_Id) {
-
-    let res = await prisma.Category.delete(
-        {
-            where: {
-                Category_Id
-            }
-        }
-    )
-
+  let res = await prisma.Category.delete({
+    where: {
+      Category_Id,
+    },
+  });
 }
 export async function ReadCategoryAsync() {
-
-    let res = await prisma.Category.findMany()
-    return res;
-
+  let res = await prisma.Category.findMany();
+  return res;
 }

@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default function categories({ categories }) {
+export default function Categories({ categories }) {
   console.log(categories);
   return (
     <div>

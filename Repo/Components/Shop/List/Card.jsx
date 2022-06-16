@@ -3,16 +3,18 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 export default function Card({ e, id }) {
-  let T1 = gsap.timeline({ paused: true });
+  const [T1, setT1] = useState(gsap.timeline({ paused: true }));
 
   useEffect(() => {
     T1.to(`.image_${id}`, { duration: 3, bottom: 0, ease: Linear.easeNone });
   }, []);
 
   const down = () => {
+    console.log(T1);
     T1.timeScale(1).play();
   };
   const up = () => {
+    console.log("up");
     T1.timeScale(T1.duration() - 1).reverse();
   };
 
@@ -39,13 +41,13 @@ export default function Card({ e, id }) {
           <div>
             <h3>هزینه با ما</h3>
             <h3 className="PriceWithUs">
-              {parseInt(e.PriceWithUs.toLocaleString("fa-IR"))}
+              {parseInt(e.PriceWithUs).toLocaleString("fa-IR")}
             </h3>
           </div>
           <div className="cross">
             <h3>هزینه</h3>
             <h3 className="Price">
-              {parseInt(e.Price.toLocaleString("fa-IR"))}
+              {parseInt(e.Price).toLocaleString("fa-IR")}
             </h3>
           </div>
         </div>

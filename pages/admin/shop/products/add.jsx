@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
-import ValidateToken from "../../../Repo/Methodes/authentication/ValidateToken";
-import addProduct from "../../../Repo/Methodes/Admin/Shop/addProduct";
+import ValidateToken from "../../../../Repo/Methodes/authentication/ValidateToken";
+import addProduct from "../../../../Repo/Methodes/Admin/Shop/addProduct";
 
 const prisma = new PrismaClient();
 

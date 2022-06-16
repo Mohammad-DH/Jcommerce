@@ -4,7 +4,6 @@ import { ScreenshotAsync } from "./Screenshot";
 const prisma = new PrismaClient();
 
 export const AddProductAsync = async (req, res, next) => {
-  console.log(req.body);
   let { Name, Description, SelectedCategory, Price, PriceWithUs, Link } =
     req.body;
 
@@ -22,8 +21,8 @@ export const AddProductAsync = async (req, res, next) => {
         Name,
         Description,
         Image: imagePath,
-        Price: Price,
-        PriceWithUs: PriceWithUs,
+        Price,
+        PriceWithUs,
         Link,
         CategoryId: parseInt(SelectedCategory),
       },

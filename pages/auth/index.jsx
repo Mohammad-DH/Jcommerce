@@ -19,7 +19,6 @@ export default function Auth() {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
           router.push(res.data.redirect);
         }
       });

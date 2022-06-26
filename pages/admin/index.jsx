@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React from "react";
 import ValidateToken from "../../Repo/Methodes/authentication/ValidateToken";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 export default function Index({ user }) {
   if (user) {
@@ -24,8 +26,15 @@ export async function getServerSideProps({ req, res }) {
   if (token) {
     let user = await ValidateToken(token);
 
-    if (user.data.Admin === true) {
-      return { props: { user: user.data } };
+    user = await prisma.User.findFirst({
+      where: {
+        User_Id: user.data.User_Id,
+      },
+    });
+    console.log(user);
+
+    if (user.Admin === true) {
+      return { props: { user } };
     }
 
     return { props: { mess: "not a admin" } };

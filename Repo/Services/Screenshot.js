@@ -72,12 +72,9 @@ export async function ScreenshotAsync(Link) {
     );
   }
 
-  await Page.waitForSelector("ul");
-  let element = await Page.$("ul");
+  await Page.waitForSelector("._aa_8");
+  let element = await Page.$("._aa_8");
   let text = await Page.evaluate((el) => el.textContent, element);
-  // let posts = text.split("posts")
-  // let followers = text.slice("posts")[1].slice("followers")[0]
-  // let following = text.slice("posts")[1].slice("followers")[1].slice("following")[0]
 
   await Page.addStyleTag({
     content: "._abpb,._aanh,._accr,._acbh{display:none !important}",
@@ -86,5 +83,5 @@ export async function ScreenshotAsync(Link) {
   let path = `./public/screenshots/${Link.split("/")[3]}.jpeg`;
   await Page.screenshot({ path, fullPage: true });
 
-  return path;
+  return { text, path };
 }

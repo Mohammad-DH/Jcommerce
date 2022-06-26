@@ -22,11 +22,17 @@ model User {
 model Product {
   Product_Id Int @id @default(autoincrement()) @unique 
   Name String @unique
-  Description String @db.VarChar(600)
+  Description String @db.VarChar(2000)
   Image String
-  Price String
-  PriceWithUs String
+  Price Int
+  PriceWithUs Int
   Link String @unique
+  Posts String
+  Followers String
+  Following String
+  NumericPosts Int
+  NumericFollowers Int
+  NumericFollowing Int
 
   Category Category @relation(fields: [CategoryId], references: [Category_Id])
   CategoryId Int
@@ -42,9 +48,10 @@ model Category {
 
 model Order {
   Order_Id Int @id @default(autoincrement()) @unique
+  Status String @default("pending")
+
   Product  Product @relation(fields: [ProductId], references: [Product_Id])
   ProductId Int
-
-  User User @relation(fields:[User_Id],references:[User_Id]) 
-  User_Id Int
+  User User @relation(fields:[UserId],references:[User_Id]) 
+  UserId Int
 }

@@ -73,6 +73,7 @@ export default function Products({ categories }) {
           onChange={(e) => setDescription(e.target.value)}
           defaultValue={Description}
           placeholder="توضیحات کالا"
+          maxLength={2000}
         />
 
         <h3
@@ -128,7 +129,14 @@ export async function getServerSideProps({ req, res }) {
 
   if (token) {
     let user = await ValidateToken(token);
-    if (user.data.Admin == true) {
+
+    user = await prisma.User.findFirst({
+      where: {
+        User_Id: user.data.User_Id,
+      },
+    });
+
+    if (user.Admin == true) {
       let categories = await prisma.category.findMany({});
       return { props: { categories: categories } };
     }

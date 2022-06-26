@@ -43,8 +43,8 @@ export default function Index({ categories }) {
 
       <div className="">
         {categories.length > 0
-          ? categories.map((e) => {
-              return <span>{e.Name}</span>;
+          ? categories.map((e, i) => {
+              return <span key={i}>{e.Name}</span>;
             })
           : ""}
       </div>
@@ -67,7 +67,14 @@ export async function getServerSideProps({ req, res }) {
 
   if (token) {
     let user = await ValidateToken(token);
-    if (user.data.Admin == true) {
+
+    user = await prisma.User.findFirst({
+      where: {
+        User_Id: user.data.User_Id,
+      },
+    });
+
+    if (user.Admin === true) {
       let categories = await prisma.Category.findMany();
 
       return { props: { categories } };

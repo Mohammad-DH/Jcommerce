@@ -14,17 +14,77 @@ export const AddProductAsync = async (req, res, next) => {
   });
 
   if (!exist[0]) {
-    let imagePath = await ScreenshotAsync(Link);
+    let ScrapedData = await ScreenshotAsync(Link);
+
+    console.log(ScrapedData.text);
+
+    let Posts = ScrapedData.text.split("posts")[0];
+
+    let NumericPosts = Posts.replaceAll(",", "");
+
+    if (
+      NumericPosts.split(".")[1] &&
+      NumericPosts.split(".")[1].includes("K")
+    ) {
+      NumericPosts = parseInt(
+        NumericPosts.split(".")[0] +
+          NumericPosts.split(".")[1].replaceAll("K", "00")
+      );
+    } else {
+      NumericPosts = parseInt(NumericPosts.replaceAll("K", "000"));
+    }
+
+    ///////////////////////////////////////////////////////////////////
+    let Followers = ScrapedData.text.split("posts")[1].split("followers")[0];
+
+    let NumericFollowers = Followers.replaceAll(",", "");
+
+    if (
+      NumericFollowers.split(".")[1] &&
+      NumericFollowers.split(".")[1].includes("K")
+    ) {
+      NumericFollowers = parseInt(
+        NumericFollowers.split(".")[0] +
+          NumericFollowers.split(".")[1].replaceAll("K", "00")
+      );
+    } else {
+      NumericFollowers = parseInt(NumericFollowers.replaceAll("K", "000"));
+    }
+    /////////////////////////////////////////////
+    let Following = ScrapedData.text
+      .split("posts")[1]
+      .split("followers")[1]
+      .split("following")[0];
+
+    let NumericFollowing = Following.replaceAll(",", "");
+
+    if (
+      NumericFollowing.split(".")[1] &&
+      NumericFollowing.split(".")[1].includes("K")
+    ) {
+      NumericFollowing = parseInt(
+        NumericFollowing.split(".")[0] +
+          NumericFollowing.split(".")[1].replaceAll("K", "00")
+      );
+    } else {
+      NumericFollowing = parseInt(NumericFollowing.replaceAll("K", "000"));
+    }
 
     let product = await prisma.Product.create({
       data: {
         Name,
         Description,
-        Image: imagePath,
-        Price,
-        PriceWithUs,
+        Image: ScrapedData.path,
+        Price: parseInt(Price),
+        PriceWithUs: parseInt(PriceWithUs),
         Link,
         CategoryId: parseInt(SelectedCategory),
+        Posts,
+        Followers,
+        Following,
+        NumericPosts,
+        NumericFollowers,
+        NumericFollowing,
       },
     });
 

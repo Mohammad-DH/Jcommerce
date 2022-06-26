@@ -56,14 +56,20 @@ export async function getServerSideProps({ req, res }) {
 
   if (token) {
     let user = await ValidateToken(token);
-    if (user.data.Admin == true) {
+
+    user = await prisma.User.findFirst({
+      where: {
+        User_Id: user.data.User_Id,
+      },
+    });
+
+    if (user.Admin == true) {
       let products = await prisma.product.findMany({
         // include: {
         //
         // },
       });
 
-      console.log(products);
       return { props: { products: products } };
     }
   }

@@ -25,17 +25,26 @@ export default function UserLayout({ children }) {
   }, [vantaEffect]);
 
   return (
-    <div className="main">
-      <div className="background" ref={vantaRef}></div>
-      <div className="nav">nav</div>
-      {/* replace it with navbar */}
-      <div className="content">{children}</div>
-
+    <div className="corner">
+      <div className="main">
+        <div className="background" ref={vantaRef}></div>
+        <div className="nav">nav</div>
+        {/* replace it with navbar */}
+        <div className="content">{children}</div>
+      </div>
       <style jsx>{`
-        .main {
+        .corner {
           width: 100vw;
           min-height: 100vh;
           height: fit-content;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .main {
+          width: 100%;
+          max-width: 1336px;
+          height: 100%;
           display: flex;
           flex-direction: column;
         }

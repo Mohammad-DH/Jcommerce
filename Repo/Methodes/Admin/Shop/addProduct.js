@@ -23,7 +23,6 @@ const addProduct = async (
     },
   }).then((res) => {
     setLoading(false);
-    console.log(res.data);
   });
 };
 

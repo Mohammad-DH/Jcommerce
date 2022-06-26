@@ -1,17 +1,24 @@
-import ValidateToken from '../../../Repo/Methodes/authentication/ValidateToken';
-import { UpdateProductAsync } from '../../../Repo/Services/ProductService';
+import ValidateToken from "../../../Repo/Methodes/authentication/ValidateToken";
+import { UpdateProductAsync } from "../../../Repo/Services/ProductService";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-    let token = req.cookies.jwtToken;
-    let user = await ValidateToken(token);
+  let token = req.cookies.jwtToken;
+  let user = await ValidateToken(token);
 
-    if (user && user.data.Admin === true) {
-        await UpdateProductAsync(req, res)
-        console.log(req.body)
-        res.status(200).json({ mess: "ok" })
-        return
-    }
+  user = await prisma.User.findFirst({
+    where: {
+      User_Id: user.data.User_Id,
+    },
+  });
 
-    res.status(200).json({ mess: "not ok" })
+  if (user.Admin === true) {
+    await UpdateProductAsync(req, res);
+    res.status(200).json({ mess: "ok" });
+    return;
+  }
+
+  res.status(200).json({ mess: "not ok" });
 }

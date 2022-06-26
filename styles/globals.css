@@ -1,5 +1,7 @@
 :root {
   --blue: rgb(0, 72, 255);
+  --dark-green: rgb(52, 184, 52);
+  --light-green: rgba(77, 255, 77, 0.7);
 }
 
 @font-face {

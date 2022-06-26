@@ -2,9 +2,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  const { pageNumber } = req.body;
-  console.log(pageNumber);
-  // console.log(req.body);
+  const { PageNumber, OrderBy } = req.body;
+
   const Products = await prisma.Product.findMany({
     include: {
       Category: {
@@ -14,12 +13,11 @@ export default async function handler(req, res) {
         },
       },
     },
-    orderBy: {
-      Price: "desc",
-    },
-    skip: (pageNumber - 1) * parseInt(process.env.pagination_number),
+    orderBy: OrderBy ? OrderBy : { NumericFollowers: "desc" },
+    skip: (PageNumber - 1) * parseInt(process.env.pagination_number),
     take: parseInt(process.env.pagination_number),
   });
   res.status(200).json({ Products });
+
   return;
 }

@@ -10,11 +10,9 @@ export default function Card({ e, id }) {
   }, []);
 
   const down = () => {
-    console.log(T1);
     T1.timeScale(1).play();
   };
   const up = () => {
-    console.log("up");
     T1.timeScale(T1.duration() - 1).reverse();
   };
 
@@ -59,7 +57,7 @@ export default function Card({ e, id }) {
       </Link>
       <style jsx>{`
         .card {
-          width: 20vw;
+          width: 20%;
           margin-bottom: 4vh;
           display: flex;
           flex-direction: column;

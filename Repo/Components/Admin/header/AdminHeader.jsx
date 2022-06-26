@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 export default function AdminHeader() {
   const router = useRouter();
-  console.log(router.pathname);
   return (
     <div className="adminHeader">
       <div className="logo">

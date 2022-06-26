@@ -1,39 +1,45 @@
-import React, { useState } from "react";
+import React from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import axios from "axios";
 
-export default function ({ PriceRange }) {
-  const [Range, setRange] = useState(PriceRange);
-
-  const filter = () => {
-    axios({
-      method: "post",
-      url: "/api/product/filter",
-      data: {
-        PriceRange: Range,
-        //category
-        //pagination
-      },
-    }).then((res) => {
-      setLoading(false);
-      console.log(res.data);
-    });
-  };
-
+export default function ({
+  Range,
+  setRange,
+  setSelectedCategory,
+  SelectedCategory,
+  PriceRange,
+  categories,
+  filter,
+}) {
   return (
     <div className="Glass panel">
-      <div className="filterCategory">sss</div>
-
-      <div className="btn">
-        <span onClick={filter}>فیلتر</span>
+      <div className="filterCategory">
+        {categories.map((e) => {
+          return (
+            <div
+              onClick={() => setSelectedCategory(e.Category_Id)}
+              className={
+                SelectedCategory === e.Category_Id
+                  ? "CategoryIcon ActiveCategoryIcon"
+                  : "CategoryIcon"
+              }
+            >
+              <span>{e.Name}</span>
+              <img src={`/CategoryIcons/${e.Image}`} alt="CategoryIcons" />
+            </div>
+          );
+        })}
       </div>
 
       <div className="filterPrice">
         <div className="slider">
           <div className="range">
-            <span className="min">{PriceRange[0]}</span>
-            <span className="max">{PriceRange[1]}</span>
+            <span className="min">
+              {parseInt(PriceRange[0]).toLocaleString("fa-IR")}
+            </span>
+            <span className="max">
+              {parseInt(PriceRange[1]).toLocaleString("fa-IR")}
+            </span>
           </div>
           <Slider
             range
@@ -44,25 +50,79 @@ export default function ({ PriceRange }) {
           />
         </div>
         <div className="selectedRange">
-          <h3>{`از ${Range[0]} تومان تا ${Range[1]} تومان`}</h3>
+          <h3>{`از ${Range[0].toLocaleString(
+            "fa-IR"
+          )} تومان تا ${Range[1].toLocaleString("fa-IR")} تومان`}</h3>
         </div>
+      </div>
+
+      <div className=" btn">
+        <span onClick={() => filter(1)}>فیلتر</span>
       </div>
 
       <style jsx>{`
         .panel {
-          width: 90%;
-          height: 20vh;
+          width: 95%;
+          height: 20%;
+          padding: 0.9vh 0;
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+        }
+        .filterCategory {
+          padding: 0.5rem 0;
+          width: 48%;
+          height: fit-content;
+          max-height: 70%;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: flex-end;
+          overflow: scroll;
+        }
+        .CategoryIcon {
+          height: 2.2rem;
+          width: fit-content;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          font-size: 0.5vw;
+          padding: 0 2%;
+          margin: 0.5% 1.5%;
+          border-radius: 500rem;
+          transition: all 0.3s linear;
+          cursor: pointer;
+        }
+        .CategoryIcon span {
+          white-space: nowrap;
+          margin-right: 10px;
+        }
+        .CategoryIcon img {
+          width: 1vw;
+          height: 1vw;
+          transition: all 0.1s linear;
+          opacity: 0.85;
+        }
+        .CategoryIcon img:hover {
+          transform: scale(1.1);
+        }
+        .ActiveCategoryIcon {
+          background-color: var(--blue);
+          color: #ffffff;
+          transform: scale(1.05);
+        }
+        .ActiveCategoryIcon img {
+          filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(206deg)
+            brightness(103%) contrast(103%);
         }
         .filterPrice {
-          width: 45%;
+          width: 48%;
           height: 70%;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          align-self: flex-start;
         }
         .slider {
           width: 90%;
@@ -83,20 +143,22 @@ export default function ({ PriceRange }) {
         .selectedRange {
           height: 50%;
         }
-        .filterCategory {
-          width: 45%;
-          height: 70%;
-          align-self: flex-start;
-        }
+
         .btn {
-          width: 10%;
-          height: 80%;
+          width: 15%;
+          padding: 0.5rem 0;
+          margin-top: 1rem;
           display: flex;
           align-items: flex-end;
           justify-content: center;
-        }
-        .btn span {
+          background-color: var(--light-green);
+          font-size: 1.1vw;
+          border-radius: 0.4rem;
+          transition: all 0.8s ease-out;
           cursor: pointer;
+        }
+        .btn:hover {
+          width: 98%;
         }
       `}</style>
     </div>

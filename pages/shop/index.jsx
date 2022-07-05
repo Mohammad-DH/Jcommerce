@@ -13,14 +13,15 @@ export default function Index({ Products, PriceRange, categories, Pages }) {
   //filter component
   const [Range, setRange] = useState(PriceRange);
   const [SelectedCategory, setSelectedCategory] = useState();
+  const [SortBy, setSortBy] = useState("بیشترین دنبال کننده");
 
   var OrderBy;
 
   const sortList = [
-    { title: "گرانترین", value: { PriceWithUs: "desc" } },
-    { title: "ارزانترین", value: { PriceWithUs: "asc" } },
     { title: "بیشترین دنبال کننده", value: { NumericFollowers: "desc" } },
     { title: "بیشترین تعداد پست", value: { NumericPosts: "desc" } },
+    { title: "گرانترین", value: { PriceWithUs: "desc" } },
+    { title: "ارزانترین", value: { PriceWithUs: "asc" } },
   ];
 
   const filter = (PageNumber) => {
@@ -75,15 +76,19 @@ export default function Index({ Products, PriceRange, categories, Pages }) {
         PriceRange={PriceRange}
         categories={categories}
       />
-      <div className="">
+      <div className="Glass sortList">
         {sortList.map((e, i) => {
           return (
             <h3
               key={i}
               onClick={() => {
+                setSortBy(e.title);
                 OrderBy = e.value;
                 handel(1);
               }}
+              className={
+                SortBy === e.title ? "sortItem sortItemActive" : "sortItem"
+              }
             >
               {e.title}
             </h3>
@@ -106,7 +111,7 @@ export default function Index({ Products, PriceRange, categories, Pages }) {
 
       <style jsx>{`
         .shop {
-          padding-top: 4vh;
+          padding-top: 3vh;
           width: 100%;
           height: fit-content;
           display: flex;
@@ -115,6 +120,25 @@ export default function Index({ Products, PriceRange, categories, Pages }) {
           justify-content: space-evenly;
           text-align: right;
           user-select: none;
+        }
+        .sortList {
+          width: 95%;
+          display: flex;
+          flex-direction: row-reverse;
+          align-items: center;
+          justify-content: space-evenly;
+          margin-top: 1%;
+        }
+        .sortItem {
+          color: rgba(0, 0, 0, 0.6);
+          cursor: pointer;
+          transition: all 0.2s linear;
+        }
+        .sortItem:hover {
+          transform: scale(1.03);
+        }
+        .sortItemActive {
+          color: var(--blue);
         }
       `}</style>
     </div>

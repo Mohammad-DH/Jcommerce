@@ -102,7 +102,6 @@ export default function ({
           width: 1vw;
           height: 1vw;
           transition: all 0.1s linear;
-          opacity: 0.85;
         }
         .CategoryIcon img:hover {
           transform: scale(1.1);

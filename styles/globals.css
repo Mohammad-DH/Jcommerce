@@ -1,6 +1,10 @@
 :root {
   /* --blue: rgb(0, 72, 255); */
+  --nav-height: 5vh;
+  --nav-margin: 1vh;
+  --min-height: calc(100vh - (var(--nav-height) + var(--nav-margin)));
   --blue: rgb(49, 102, 251);
+  --light-blue: rgba(49, 103, 251, 0.5);
   --dark-green: rgb(52, 184, 52);
   --light-green: rgba(77, 255, 77, 0.7);
 }
@@ -13,8 +17,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {

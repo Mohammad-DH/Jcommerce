@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import FilterPanel from "../../Repo/Components/Shop/filter/FilterPanel";
 import List from "../../Repo/Components/Shop/List/List";
@@ -86,9 +86,7 @@ export default function Index({ Products, PriceRange, categories, Pages }) {
                 OrderBy = e.value;
                 handel(1);
               }}
-              className={
-                SortBy === e.title ? "sortItem sortItemActive" : "sortItem"
-              }
+              className={SortBy === e.title ? "sortItem sortItemActive" : "sortItem"}
             >
               {e.title}
             </h3>

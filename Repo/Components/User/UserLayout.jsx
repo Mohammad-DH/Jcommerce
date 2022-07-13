@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import FOG from "vanta/dist/vanta.fog.min";
 import * as THREE from "three";
+import Navbar from "../navbar/Navbar";
 
 export default function UserLayout({ children }) {
   const [vantaEffect, setVantaEffect] = useState(0);
@@ -28,15 +29,14 @@ export default function UserLayout({ children }) {
     <div className="corner">
       <div className="main">
         <div className="background" ref={vantaRef}></div>
-        <div className="nav">nav</div>
-        {/* replace it with navbar */}
+        <Navbar />
         <div className="content">{children}</div>
       </div>
       <style jsx>{`
         .corner {
           width: 100vw;
-          min-height: 100vh;
           height: fit-content;
+          min-height: 100vh;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -45,6 +45,7 @@ export default function UserLayout({ children }) {
           width: 100%;
           max-width: 1336px;
           height: 100%;
+          min-height: 100vh;
           display: flex;
           flex-direction: column;
         }
@@ -56,13 +57,11 @@ export default function UserLayout({ children }) {
           height: 100vh;
           z-index: -50 !important;
         }
-        .nav {
-          height: 5vh;
-          width: 100%;
-          background-color: red;
-        }
+
         .content {
           width: 100%;
+          height: 100%;
+          min-height: var(--min-height);
         }
       `}</style>
     </div>

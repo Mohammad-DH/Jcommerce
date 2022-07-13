@@ -1,45 +1,143 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function Auth() {
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [Code, setCode] = useState("");
+  const [Step, setStep] = useState(0);
 
   const router = useRouter();
 
   const auth = async (PN) => {
-    await axios.post("/api/auth", { PhoneNumber: PN });
-  };
-  const post = async (PN, code) => {
-    await axios
-      .post("/api/login", {
-        PhoneNumber: PN,
-        Code: code,
-      })
-      .then((res) => {
+    if (PN.length === 11) {
+      await axios.post("/api/auth", { PhoneNumber: PN }).then((res) => {
         if (res.status === 200) {
-          router.push(res.data.redirect);
+          setStep(1);
         }
       });
+    }
+  };
+
+  const post = async (PN, code) => {
+    if (code.length === 6) {
+      await axios
+        .post("/api/login", {
+          PhoneNumber: PN,
+          Code: code,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            router.push(res.data.redirect);
+          }
+        });
+    }
   };
 
   return (
-    <div>
-      <div className="LoginForm">
-        <input
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          placeholder="PhoneNumber"
-          type="text"
-        />
-        <input
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="Code"
-          type="text"
-        />
-        <span onClick={(e) => auth(PhoneNumber)}>Send SMS</span>
-        <span onClick={(e) => post(PhoneNumber, Code)}>Login</span>
-      </div>
+    <div className="LoginPage">
+      {Step === 0 ? (
+        <div className="Glass LoginForm">
+          <h1>BARCODE</h1>
+          <div className="LoginInner">
+            <h3>ورود | ثبت&zwnj;نام</h3>
+            <h4>لطفا شماره تلفن خود را وارد کنید</h4>
+            <input value={PhoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} type="text" />
+          </div>
+          <span className="formBtn" onClick={(e) => auth(PhoneNumber)}>
+            ارسال
+          </span>
+        </div>
+      ) : (
+        <div className="Glass LoginForm">
+          <h1>BARCODE</h1>
+          <div className="LoginInner">
+            <h3>ورود | ثبت&zwnj;نام</h3>
+            <h4>لطفا کد فرستاده شده به شماره {PhoneNumber} را وارد کنید </h4>
+            <input value={Code} onChange={(e) => setCode(e.target.value)} type="text" />
+          </div>
+          <span className="formBtn" onClick={(e) => post(PhoneNumber, Code)}>
+            ورود
+          </span>
+        </div>
+      )}
+
+      <style jsx>{`
+        .LoginPage {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 94vh;
+        }
+        .LoginForm {
+          width: 30%;
+          height: 30%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+          text-align: right;
+        }
+        .LoginForm h1 {
+          margin: 0;
+          padding: 0;
+        }
+        .LoginForm h3,
+        h4,
+        input {
+          padding: 0 2%;
+          width: 88%;
+          margin: 0.5rem;
+        }
+        .LoginForm h4 {
+          font-size: 0.8rem;
+        }
+        .LoginForm input {
+          height: 3rem;
+          border-radius: 10px;
+          border: 2px solid var(--light-blue);
+          text-align: right;
+          outline: none;
+        }
+        .LoginForm input:focus {
+          border: 2px solid var(--blue);
+        }
+        .LoginInner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          width: 100%;
+        }
+        .formBtn {
+          width: 90%;
+          background-color: var(--blue);
+          height: 3rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+          color: white;
+          font-size: 1.4rem;
+          cursor: pointer;
+        }
+      `}</style>
     </div>
   );
+}
+
+export async function getServerSideProps({ req, res, query }) {
+  let token = req.cookies.jwtToken;
+
+  if (token) {
+    return {
+      redirect: {
+        destination: "/account",
+        permanent: false,
+      },
+    };
+  }
+  return { props: { message: "not logged in" } };
 }

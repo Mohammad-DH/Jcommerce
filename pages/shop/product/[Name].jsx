@@ -7,13 +7,7 @@ import OrderBTN from "../../../Repo/Components/Shop/product/OrderBTN";
 
 const prisma = new PrismaClient();
 
-export default function ProductDetailes({
-  Details,
-  user,
-  exist,
-  userIsCompleted,
-  isLoggedIn,
-}) {
+export default function ProductDetailes({ Details, user, exist, userIsCompleted, isLoggedIn }) {
   const [T1, setT1] = useState(gsap.timeline({ paused: true }));
   const [Active, setActive] = useState(false);
 
@@ -59,13 +53,7 @@ export default function ProductDetailes({
       <div className="detailFrame">
         <div className="Glass detail">
           <div className="imageBox">
-            <img
-              className="image"
-              onMouseEnter={down}
-              onMouseLeave={up}
-              src={Details.Image.split("/public")[1]}
-              alt=""
-            />
+            <img className="image" onMouseEnter={down} onMouseLeave={up} src={Details.Image.split("/public")[1]} alt="" />
           </div>
 
           <div className="Glass status">
@@ -86,10 +74,7 @@ export default function ProductDetailes({
           <div className="Glass info">
             <div className="category">
               <span>{Details.Category.Name}</span>
-              <img
-                src={`/CategoryIcons/${Details.Category.Image}`}
-                alt="Category icon"
-              />
+              <img src={`/CategoryIcons/${Details.Category.Image}`} alt="Category icon" />
             </div>
             <h2 className="Name">{Details.Name}</h2>
             <p className="Description">{Details.Description}</p>
@@ -105,13 +90,7 @@ export default function ProductDetailes({
               </div>
             </div>
 
-            <OrderBTN
-              exist={exist}
-              Active={Active}
-              Order={Order}
-              userIsCompleted={userIsCompleted}
-              isLoggedIn={isLoggedIn}
-            />
+            <OrderBTN exist={exist} Active={Active} Order={Order} userIsCompleted={userIsCompleted} isLoggedIn={isLoggedIn} />
           </div>
         </div>
 
@@ -241,12 +220,13 @@ export async function getServerSideProps({ req, res, query }) {
         User_Id: user.data.User_Id,
       },
     });
+
     if (user) {
       isLoggedIn = true;
-    }
 
-    if (user.FirstName !== "" && user.LastName !== "" && user.Email !== "") {
-      userIsCompleted = true;
+      if (user.FirstName !== "" && user.LastName !== "" && user.Email !== "") {
+        userIsCompleted = true;
+      }
     }
 
     exist = await prisma.Order.findFirst({

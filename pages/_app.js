@@ -1,10 +1,12 @@
+import { useRouter } from "next/router";
+
+import API from "../Repo/Context/Global/API";
 import AdminLayout from "../Repo/Components/Admin/AdminLayout";
 import UserLayout from "../Repo/Components/User/UserLayout";
-import "../styles/globals.css";
-import { useRouter } from "next/router";
-import API from "../Repo/Context/Global/API";
 
-export default function MyApp({ Component, pageProps, admin }) {
+import "../styles/globals.css";
+
+export default function MyApp({ Component, pageProps, user }) {
   const router = useRouter();
 
   if (router.asPath.includes("admin")) {

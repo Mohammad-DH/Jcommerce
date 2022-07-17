@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { redirect } from "next/dist/server/api-utils";
 
 export default function Auth() {
   const [PhoneNumber, setPhoneNumber] = useState("");
@@ -43,7 +42,7 @@ export default function Auth() {
           <div className="LoginInner">
             <h3>ورود | ثبت&zwnj;نام</h3>
             <h4>لطفا شماره تلفن خود را وارد کنید</h4>
-            <input value={PhoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} type="text" />
+            <input className="phoneInput" value={PhoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} type="string" />
           </div>
           <span className="formBtn" onClick={(e) => auth(PhoneNumber)}>
             ارسال
@@ -55,7 +54,7 @@ export default function Auth() {
           <div className="LoginInner">
             <h3>ورود | ثبت&zwnj;نام</h3>
             <h4>لطفا کد فرستاده شده به شماره {PhoneNumber} را وارد کنید </h4>
-            <input value={Code} onChange={(e) => setCode(e.target.value)} type="text" />
+            <input className="codeInput" value={Code} onChange={(e) => setCode(e.target.value)} type="text" maxLength={6} />
           </div>
           <span className="formBtn" onClick={(e) => post(PhoneNumber, Code)}>
             ورود
@@ -101,8 +100,26 @@ export default function Auth() {
           text-align: right;
           outline: none;
         }
+        //hide arrows
+        /* Chrome, Safari, Edge, Opera */
+        .LoginForm input::-webkit-outer-spin-button,
+        .LoginForm input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        .LoginForm input[type="number"] {
+          -moz-appearance: textfield;
+        }
+        //End hide arrows
+
         .LoginForm input:focus {
           border: 2px solid var(--blue);
+        }
+        .phoneInput {
+          font-size: 1.2rem;
+          letter-spacing: 0.2rem;
         }
         .LoginInner {
           display: flex;
@@ -110,6 +127,15 @@ export default function Auth() {
           align-items: center;
           justify-content: flex-start;
           width: 100%;
+        }
+        .codeInput {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          width: 50%;
+          font-size: 1.5rem;
+          letter-spacing: 1rem;
         }
         .formBtn {
           width: 90%;

@@ -31,33 +31,11 @@ export default function Products({ categories }) {
     <div className="addForm">
       <h1>{Loading ? "loading ..." : ""}</h1>
       <div className="detailForm">
-        <input
-          onChange={(e) => setName(e.target.value)}
-          defaultValue={Name}
-          placeholder="اسم کالا"
-          type="text"
-        />
+        <input onChange={(e) => setName(e.target.value)} defaultValue={Name} placeholder="اسم کالا" type="text" />
 
-        <input
-          onChange={(e) => setPrice(e.target.value)}
-          defaultValue={Price}
-          placeholder="قیمت"
-          type="text"
-          maxLength={10}
-        />
-        <input
-          onChange={(e) => setPriceWithUs(e.target.value)}
-          defaultValue={PriceWithUs}
-          placeholder="قیمت با بارکد"
-          type="text"
-          maxLength={10}
-        />
-        <input
-          onChange={(e) => setLink(e.target.value)}
-          defaultValue={Link}
-          placeholder="ادرس"
-          type="text"
-        />
+        <input onChange={(e) => setPrice(e.target.value)} defaultValue={Price} placeholder="قیمت" type="text" maxLength={10} />
+        <input onChange={(e) => setPriceWithUs(e.target.value)} defaultValue={PriceWithUs} placeholder="قیمت با بارکد" type="text" maxLength={10} />
+        <input onChange={(e) => setLink(e.target.value)} defaultValue={Link} placeholder="ادرس" type="text" />
 
         <div className="categoryList">
           {Category.map((e) => {
@@ -69,28 +47,9 @@ export default function Products({ categories }) {
           })}
         </div>
 
-        <textarea
-          onChange={(e) => setDescription(e.target.value)}
-          defaultValue={Description}
-          placeholder="توضیحات کالا"
-          maxLength={2000}
-        />
+        <textarea onChange={(e) => setDescription(e.target.value)} defaultValue={Description} placeholder="توضیحات کالا" maxLength={2000} />
 
-        <h3
-          onClick={() =>
-            addProduct(
-              Name,
-              Description,
-              SelectedCategory,
-              Price,
-              PriceWithUs,
-              Link,
-              setLoading
-            )
-          }
-        >
-          new product
-        </h3>
+        <h3 onClick={() => addProduct(Name, Description, SelectedCategory, Price, PriceWithUs, Link, setLoading)}>new product</h3>
       </div>
       <style jsx>{`
         .addForm {
@@ -139,7 +98,19 @@ export async function getServerSideProps({ req, res }) {
     if (user.Admin == true) {
       let categories = await prisma.category.findMany({});
       return { props: { categories: categories } };
+    } else {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
     }
   }
-  return { props: { products: "404" } };
+  return {
+    redirect: {
+      destination: "/auth",
+      permanent: false,
+    },
+  };
 }

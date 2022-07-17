@@ -7,48 +7,42 @@ import Item from "../../../../Repo/Components/Admin/productPanel/ProductList/pro
 const prisma = new PrismaClient();
 
 export default function Products({ products }) {
-  if (products === "404" || !products) {
-    return "404";
-  } else {
-    return (
-      <div className="adminShop">
-        <div className="addNewBtn">
-          <Link href="/admin/shop/products/add">add new product</Link>
-        </div>
-
-        <div className="List">
-          {products.map((i) => (
-            <div className="Item" key={i.Product_Id}>
-              <Item obj={i} />
-            </div>
-          ))}
-        </div>
-        <style jsx>{`
-          .addNewBtn {
-            width: fit-content;
-            background-color: greenyellow;
-            padding: 1rem 1.5rem;
-            margin: 1rem;
-            border-radius: 10px;
-          }
-
-          .List {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-evenly;
-            background-color: beige;
-          }
-
-          .Item {
-            width: 90%;
-            margin: 1rem 0;
-          }
-        `}</style>
+  return (
+    <div onClick={() => console.log(products)} className="adminShop">
+      <div className="addNewBtn">
+        <Link href="/admin/shop/products/add">add new product</Link>
       </div>
-    );
-  }
+
+      <div className="List">
+        {products.map((i) => (
+          <div className="Item" key={i.Product_Id}>
+            <Item obj={i} />
+          </div>
+        ))}
+      </div>
+      <style jsx>{`
+        .addNewBtn {
+          width: fit-content;
+          padding: 1rem 1.5rem;
+          margin: 1rem;
+          border-radius: 10px;
+        }
+
+        .List {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-evenly;
+        }
+
+        .Item {
+          width: 90%;
+          margin: 1rem 0;
+        }
+      `}</style>
+    </div>
+  );
 }
 
 export async function getServerSideProps({ req, res }) {
@@ -65,13 +59,25 @@ export async function getServerSideProps({ req, res }) {
 
     if (user.Admin == true) {
       let products = await prisma.product.findMany({
-        // include: {
-        //
-        // },
+        include: {
+          Category: true,
+        },
       });
 
-      return { props: { products: products } };
+      return { props: { products } };
+    } else {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
     }
   }
-  return { props: { products: "404" } };
+  return {
+    redirect: {
+      destination: "/auth",
+      permanent: false,
+    },
+  };
 }

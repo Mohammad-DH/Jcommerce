@@ -2,13 +2,7 @@ import gsap, { Linear } from "gsap";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export default function OrderBTN({
-  exist,
-  Active,
-  Order,
-  userIsCompleted,
-  isLoggedIn,
-}) {
+export default function OrderBTN({ exist, Active, Order, userIsCompleted, isLoggedIn }) {
   const [BTN_TL, setBTN_TL] = useState(gsap.timeline({ paused: false }));
   const [DetailLength, setDetailLength] = useState();
   const [Replace, setReplace] = useState(0);
@@ -70,29 +64,13 @@ export default function OrderBTN({
 
   return (
     <div onMouseEnter={BTN_In} onMouseLeave={BTN_Out} className="BTNBox">
-      <span
-        ref={ref_btn}
-        onClick={click}
-        className={exist || Active ? "BTN done" : "BTN BTNActive"}
-      >
-        {exist
-          ? "قبلا سفارش دادید"
-          : Active
-          ? "سفارش شما ثبت شد"
-          : Replace === 1
-          ? "ورود / ثبت نام"
-          : Replace === 2
-          ? "تکمیل اطلاعات"
-          : "ثبت سفارش"}
+      <span ref={ref_btn} onClick={click} className={exist || Active ? "BTN done" : "BTN BTNActive"}>
+        {exist ? "قبلا سفارش دادید" : Active ? "سفارش شما ثبت شد" : Replace === 1 ? "ورود / ثبت نام" : Replace === 2 ? "تکمیل اطلاعات" : "ثبت سفارش"}
       </span>
 
-      <span
-        ref={ref_detail}
-        onClick={() => console.log(isLoggedIn)}
-        className="BTNDetail"
-      >
+      <span ref={ref_detail} className="BTNDetail">
         {exist
-          ? "شما یک سفارش فعال دارید"
+          ? "این محصول برای شما قبلا ثبت شده است"
           : Active
           ? "از اعتماد شما به ما ممنونیم"
           : !isLoggedIn
@@ -142,7 +120,7 @@ export default function OrderBTN({
         .BTNDetail {
           width: 0%;
           opacity: 0;
-          font-size: 1.1vw;
+          font-size: 1vw;
           overflow: hidden;
           margin-right: 1rem;
         }

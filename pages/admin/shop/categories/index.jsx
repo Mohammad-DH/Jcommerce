@@ -25,12 +25,7 @@ export default function Index({ categories }) {
   return (
     <div>
       <div className="addForm">
-        <input
-          onChange={(e) => setName(e.target.value)}
-          defaultValue={Name}
-          placeholder="اسم "
-          type="text"
-        />
+        <input onChange={(e) => setName(e.target.value)} defaultValue={Name} placeholder="اسم " type="text" />
 
         <div className="imageForm">
           <img src={createObjectURL} />
@@ -78,7 +73,19 @@ export async function getServerSideProps({ req, res }) {
       let categories = await prisma.Category.findMany();
 
       return { props: { categories } };
+    } else {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
     }
   }
-  return { props: { categories: "404" } };
+  return {
+    redirect: {
+      destination: "/auth",
+      permanent: false,
+    },
+  };
 }

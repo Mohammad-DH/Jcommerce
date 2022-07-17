@@ -11,12 +11,6 @@ export default function Index({ user }) {
         <h1>welcome to admin panel</h1>
       </div>
     );
-  } else {
-    return (
-      <div>
-        <h1>404</h1>
-      </div>
-    );
   }
 }
 
@@ -39,6 +33,11 @@ export async function getServerSideProps({ req, res }) {
 
     return { props: { mess: "not a admin" } };
   } else {
-    return { props: { mess: 404 } };
+    return {
+      redirect: {
+        destination: "/auth",
+        permanent: false,
+      },
+    };
   }
 }

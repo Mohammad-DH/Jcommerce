@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import ValidateToken from "../../Repo/Methodes/authentication/ValidateToken";
 import Link from "next/link";
+import axios from "axios";
 const prisma = new PrismaClient();
 
 export default function Index({ mess, user, order }) {
@@ -12,8 +13,21 @@ export default function Index({ mess, user, order }) {
 
   const [Write, setWrite] = useState(false);
 
-  const btnClick = () => {
+  const btnClick = async () => {
     if (Write) {
+      await axios({
+        method: "post",
+        url: "/api/user/update",
+        data: {
+          FirstName,
+          LastName,
+          PhoneNumber,
+          Email,
+        },
+      }).then((res) => {
+        console.log(res.data);
+        setWrite(false);
+      });
     } else {
       setWrite(true);
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { PrismaClient } from "@prisma/client";
+import { useRouter } from "next/router";
 import gsap, { Linear } from "gsap";
 import axios from "axios";
 import ValidateToken from "../../../Repo/Methodes/authentication/ValidateToken";
@@ -39,12 +40,10 @@ export default function ProductDetailes({ Details, user, exist, userIsCompleted,
           }
         });
       } else {
-        //not completed popup
-        console.log("not completed popup");
+        router.push("/account");
       }
     } else {
-      //redirect
-      console.log("not logged in");
+      router.push("/auth");
     }
   };
 

@@ -1,5 +1,4 @@
 import axios from "axios";
-import Link from "next/link";
 import React from "react";
 
 const remove = async (Product_Id) => {
@@ -7,47 +6,67 @@ const remove = async (Product_Id) => {
 };
 
 export default function Item({ obj }) {
-  const { Product_Id, Name, Description } = obj;
+  const { Product_Id, Price, PriceWithUs, Followers, Following, Posts, Link, Name, Description, Image, Category } = obj;
 
   return (
-    <div className="Item">
-      {/*<img src={`/${Image}`} alt="" />*/}
-      <div className="texts">
-        <p>{Description}</p>
+    <div className="itemWrapper">
+      <div className="Glass controller">
+        <span onClick={() => remove(Product_Id)}>X</span>
       </div>
-      <div className="controler">
-        <Link
-          href={{
-            pathname: `shop/products/update`,
-            query: {
-              Product_Id,
-              Name,
-              Description,
-              // Image
-            },
-          }}
-        >
-          U
-        </Link>
-        ;<span onClick={() => remove(Product_Id)}>X</span>
+      <div className="Item">
+        <img src={Image.split("/public")[1]} alt="" />
+
+        <div className="texts">
+          <span>{Category.Name}</span>
+          <span>{Name}</span>
+          <p>{Description}</p>
+          <a href={Link}>منبع</a>
+          <div className="status">
+            <span>{Followers}</span>
+            <span>{Following}</span>
+            <span>{Posts}</span>
+          </div>{" "}
+          <div className="prices">
+            <span>{Price}</span>
+            <span>{PriceWithUs}</span>
+          </div>
+        </div>
       </div>
       <style jsx>{`
+        .itemWrapper {
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: space-between;
+        }
+        .controller {
+          height: 20vh;
+          width: 2%;
+        }
+
         .Item {
-          width: 100%;
+          width: 97%;
           height: 20vh;
           display: flex;
           align-items: flex-start;
-          border: 1px solid black;
+          border: 1px solid rgba(255, 255, 255, 0.85);
+          overflow: auto;
+          text-align: right;
+          border-radius: 0.7rem;
         }
 
         .Item img {
-          width: 20vh;
-          height: 20vh;
+          width: 20%;
         }
 
         .texts {
-          width: 100%;
-          padding: 0 2.5%;
+          padding: 1rem;
+          padding-left: 0;
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          justify-content: space-evenly;
+          overflow-y: auto;
         }
 
         .header {
@@ -57,17 +76,6 @@ export default function Item({ obj }) {
 
         .header h4 {
           margin-left: 5%;
-        }
-
-        .controler {
-          width: 4vw;
-          height: 100%;
-          background-color: red;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-evenly;
-          font-size: 2rem;
         }
       `}</style>
     </div>

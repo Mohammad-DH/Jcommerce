@@ -9,9 +9,12 @@ const prisma = new PrismaClient();
 export default function Products({ products }) {
   return (
     <div onClick={() => console.log(products)} className="adminShop">
-      <div className="addNewBtn">
-        <Link href="/admin/shop/products/add">add new product</Link>
-      </div>
+      <Link href="/admin/shop/products/add">
+        <div className="Glass addNew">
+          <img className="addNewImage" src="/icons/Plus.png" alt="" />
+          <span> add new product</span>
+        </div>
+      </Link>
 
       <div className="List">
         {products.map((i) => (
@@ -21,13 +24,23 @@ export default function Products({ products }) {
         ))}
       </div>
       <style jsx>{`
-        .addNewBtn {
-          width: fit-content;
-          padding: 1rem 1.5rem;
-          margin: 1rem;
-          border-radius: 10px;
+        .addNew {
+          margin-top: 1vh;
+          margin-left: 1rem;
+          padding: 0.6rem 1rem;
+          width: 9%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          transition: all 0.3s linear;
         }
-
+        .addNew:hover {
+          transform: scale(1.05) translateX(1.5rem);
+        }
+        .addNewImage {
+          width: 30%;
+        }
         .List {
           width: 100%;
           display: flex;

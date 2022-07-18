@@ -10,8 +10,8 @@ export default function Item({ obj }) {
 
   return (
     <div className="itemWrapper">
-      <div className="Glass controller">
-        <span onClick={() => remove(Product_Id)}>X</span>
+      <div className=" controller">
+        <img src="/icons/cross.png" onClick={() => remove(Product_Id)} />
       </div>
       <div className="Item">
         <img src={Image.split("/public")[1]} alt="" />
@@ -22,13 +22,11 @@ export default function Item({ obj }) {
           <p>{Description}</p>
           <a href={Link}>منبع</a>
           <div className="status">
-            <span>{Followers}</span>
-            <span>{Following}</span>
-            <span>{Posts}</span>
-          </div>{" "}
-          <div className="prices">
-            <span>{Price}</span>
-            <span>{PriceWithUs}</span>
+            <span>Followers : {Followers}</span>
+            <span>Following : {Following}</span>
+            <span>Posts : {Posts}</span>
+            <span>Price : {Price}</span>
+            <span>PriceWithUs : {PriceWithUs}</span>
           </div>
         </div>
       </div>
@@ -41,6 +39,14 @@ export default function Item({ obj }) {
         .controller {
           height: 20vh;
           width: 2%;
+        }
+        .controller img {
+          width: 100%;
+          transition: all 0.2s linear;
+          cursor: pointer;
+        }
+        .controller img:hover {
+          transform: scale(1.1);
         }
 
         .Item {
@@ -67,6 +73,13 @@ export default function Item({ obj }) {
           align-items: flex-end;
           justify-content: space-evenly;
           overflow-y: auto;
+        }
+        .status {
+          margin-top: 2vh;
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
 
         .header {

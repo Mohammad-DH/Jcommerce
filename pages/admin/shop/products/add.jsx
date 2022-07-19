@@ -14,57 +14,49 @@ export default function Products({ categories }) {
   const [PriceWithUs, setPriceWithUs] = useState();
   const [Link, setLink] = useState();
 
-  //category list and selected category
-  const [Category, setCategory] = useState([]);
+  // selected category
   const [SelectedCategory, setSelectedCategory] = useState([]);
-
-  //set data
-  useEffect(() => {
-    let tempArr = [];
-    categories.map((e) => {
-      tempArr.push({ label: e.Name, value: e.Category_Id });
-    });
-    setCategory(tempArr);
-  }, []);
 
   return (
     <div className="addForm">
       <h1>{Loading ? "loading ..." : ""}</h1>
       <div className="detailForm">
         <input onChange={(e) => setName(e.target.value)} defaultValue={Name} placeholder="اسم کالا" type="text" />
-
         <input onChange={(e) => setPrice(e.target.value)} defaultValue={Price} placeholder="قیمت" type="text" maxLength={10} />
         <input onChange={(e) => setPriceWithUs(e.target.value)} defaultValue={PriceWithUs} placeholder="قیمت با بارکد" type="text" maxLength={10} />
         <input onChange={(e) => setLink(e.target.value)} defaultValue={Link} placeholder="ادرس" type="text" />
 
         <div className="categoryList">
-          {Category.map((e) => {
+          {categories.map((e) => {
             return (
-              <h4 onClick={() => setSelectedCategory(e.value)} key={e.value}>
-                {e.label}
+              <h4 className={SelectedCategory === e.Category_Id ? "activeCategory" : ""} onClick={() => setSelectedCategory(e.Category_Id)} key={e.Category_Id}>
+                {e.Name}
               </h4>
             );
           })}
         </div>
-
         <textarea onChange={(e) => setDescription(e.target.value)} defaultValue={Description} placeholder="توضیحات کالا" maxLength={2000} />
-
-        <h3 onClick={() => addProduct(Name, Description, SelectedCategory, Price, PriceWithUs, Link, setLoading)}>new product</h3>
+        <h3 className=" btn" onClick={() => addProduct(Name, Description, SelectedCategory, Price, PriceWithUs, Link, setLoading)}>
+          new product
+        </h3>
       </div>
       <style jsx>{`
         .addForm {
           width: 100%;
-          height: 100%;
+          height: var(--min-height);
           display: flex;
-          align-items: flex-start;
+          align-items: center;
+          justify-content: center;
         }
 
         .detailForm {
           position: relative;
-          width: 75%;
+          width: 90%;
+          height: 60%;
           display: flex;
           flex-direction: column;
           align-items: flex-end;
+          justify-content: space-evenly;
         }
 
         .detailForm input {
@@ -77,6 +69,37 @@ export default function Products({ categories }) {
           height: 15vh;
           width: 90%;
           text-align: right;
+        }
+        .categoryList {
+          margin: 1rem 0;
+          width: 90%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+        }
+        .categoryList h4 {
+          margin: 1rem 1.5rem;
+          padding: 0.8rem 1.5rem;
+          cursor: pointer;
+          transition: all 0.3s linear;
+        }
+        .activeCategory {
+          background-color: var(--blue);
+          color: white;
+          border-radius: 500rem;
+        }
+        .btn {
+          padding: 1rem 1.5rem;
+          border-radius: 1rem;
+          align-self: center;
+          cursor: pointer;
+          transition: all 0.2s linear;
+          font-size: 1.3rem;
+          background-color: var(--light-green);
+        }
+        .btn:hover {
+          transform: scale(1.05);
         }
       `}</style>
     </div>
@@ -97,6 +120,7 @@ export async function getServerSideProps({ req, res }) {
 
     if (user.Admin == true) {
       let categories = await prisma.category.findMany({});
+      console.log(categories);
       return { props: { categories: categories } };
     } else {
       return {

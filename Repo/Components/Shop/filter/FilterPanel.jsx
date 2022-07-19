@@ -2,28 +2,13 @@ import React from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
-export default function ({
-  Range,
-  setRange,
-  setSelectedCategory,
-  SelectedCategory,
-  PriceRange,
-  categories,
-  filter,
-}) {
+export default function ({ Range, setRange, setSelectedCategory, SelectedCategory, PriceRange, categories, filter }) {
   return (
     <div className="Glass panel">
       <div className="filterCategory">
         {categories.map((e) => {
           return (
-            <div
-              onClick={() => setSelectedCategory(e.Category_Id)}
-              className={
-                SelectedCategory === e.Category_Id
-                  ? "CategoryIcon ActiveCategoryIcon"
-                  : "CategoryIcon"
-              }
-            >
+            <div onClick={() => setSelectedCategory(e.Category_Id)} className={SelectedCategory === e.Category_Id ? "CategoryIcon ActiveCategoryIcon" : "CategoryIcon"}>
               <span>{e.Name}</span>
               <img src={`/CategoryIcons/${e.Image}`} alt="CategoryIcons" />
             </div>
@@ -34,25 +19,13 @@ export default function ({
       <div className="filterPrice">
         <div className="slider">
           <div className="range">
-            <span className="min">
-              {parseInt(PriceRange[0]).toLocaleString("fa-IR")}
-            </span>
-            <span className="max">
-              {parseInt(PriceRange[1]).toLocaleString("fa-IR")}
-            </span>
+            <span className="min">{parseInt(PriceRange[0]).toLocaleString("fa-IR")}</span>
+            <span className="max">{parseInt(PriceRange[1]).toLocaleString("fa-IR")}</span>
           </div>
-          <Slider
-            range
-            defaultValue={PriceRange}
-            min={parseInt(PriceRange[0])}
-            max={parseInt(PriceRange[1])}
-            onChange={(w) => setRange(w)}
-          />
+          <Slider range defaultValue={PriceRange} min={parseInt(PriceRange[0])} max={parseInt(PriceRange[1])} onChange={(w) => setRange(w)} />
         </div>
         <div className="selectedRange">
-          <h3>{`از ${Range[0].toLocaleString(
-            "fa-IR"
-          )} تومان تا ${Range[1].toLocaleString("fa-IR")} تومان`}</h3>
+          <h3>{`از ${Range[0].toLocaleString("fa-IR")} تومان تا ${Range[1].toLocaleString("fa-IR")} تومان`}</h3>
         </div>
       </div>
 
@@ -86,22 +59,23 @@ export default function ({
           width: fit-content;
           display: flex;
           align-items: center;
-          justify-content: flex-end;
-          font-size: 0.5vw;
-          padding: 0 2%;
-          margin: 0.5% 1.5%;
+          justify-content: center;
+          font-size: 1rem;
+          padding: 20px 10px;
+          margin: 1% 1.5%;
           border-radius: 500rem;
           transition: all 0.3s linear;
           cursor: pointer;
         }
         .CategoryIcon span {
           white-space: nowrap;
-          margin-right: 10px;
         }
         .CategoryIcon img {
-          width: 1vw;
-          height: 1vw;
+          width: 2rem;
+          height: 2rem;
           transition: all 0.1s linear;
+          border-radius: 500rem;
+          margin-left: 5px;
         }
         .CategoryIcon img:hover {
           transform: scale(1.1);
@@ -111,10 +85,9 @@ export default function ({
           color: #ffffff;
           transform: scale(1.05);
         }
-        .ActiveCategoryIcon img {
-          filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(206deg)
-            brightness(103%) contrast(103%);
-        }
+        //        .ActiveCategoryIcon img {
+        //        filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(206deg) brightness(103%) contrast(103%);
+        //    }
         .filterPrice {
           width: 48%;
           height: 70%;

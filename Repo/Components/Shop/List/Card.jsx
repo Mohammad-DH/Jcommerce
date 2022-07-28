@@ -19,13 +19,7 @@ export default function Card({ e, id }) {
   return (
     <div className="Glass card">
       <div className="imageBox">
-        <img
-          className={`image image_${id}`}
-          onMouseEnter={down}
-          onMouseLeave={up}
-          src={e.Image.split("/public")[1]}
-          alt=""
-        />
+        <img className={`image image_${id}`} onMouseEnter={down} onMouseLeave={up} src={e.Image.split("/public")[1]} alt="" />
       </div>
 
       <div className="DetailBox">
@@ -38,15 +32,11 @@ export default function Card({ e, id }) {
         <div className="PriceBox">
           <div>
             <h3>هزینه با ما</h3>
-            <h3 className="PriceWithUs">
-              {parseInt(e.PriceWithUs).toLocaleString("fa-IR")}
-            </h3>
+            <h3 className="PriceWithUs">{parseInt(e.PriceWithUs).toLocaleString("fa-IR")}</h3>
           </div>
           <div className="cross">
             <h3>هزینه</h3>
-            <h3 className="Price">
-              {parseInt(e.Price).toLocaleString("fa-IR")}
-            </h3>
+            <h3 className="Price">{parseInt(e.Price).toLocaleString("fa-IR")}</h3>
           </div>
         </div>
       </div>
@@ -58,6 +48,7 @@ export default function Card({ e, id }) {
       <style jsx>{`
         .card {
           width: 20%;
+          margin: 0 1vw;
           margin-bottom: 4vh;
           display: flex;
           flex-direction: column;

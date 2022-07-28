@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import ValidateToken from "../../../../Repo/Methodes/authentication/ValidateToken";
 import addProduct from "../../../../Repo/Methodes/Admin/Shop/addProduct";
@@ -19,7 +19,14 @@ export default function Products({ categories }) {
 
   return (
     <div className="addForm">
-      <h1>{Loading ? "loading ..." : ""}</h1>
+      {Loading ? (
+        <div className="wait">
+          <span>در حال گرفتن عکس از صفحه اینستاگرام</span>
+          <span>این عمل حدود 30 ثانیه طول میکشد لطفا صبور باشید</span>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="detailForm">
         <input onChange={(e) => setName(e.target.value)} defaultValue={Name} placeholder="اسم کالا" type="text" />
         <input onChange={(e) => setPrice(e.target.value)} defaultValue={Price} placeholder="قیمت" type="text" maxLength={10} />
@@ -42,11 +49,26 @@ export default function Products({ categories }) {
       </div>
       <style jsx>{`
         .addForm {
+          position: relative;
           width: 100%;
           height: var(--min-height);
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        .wait {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: var(--min-height);
+          background-color: rgba(203, 231, 255, 0.5);
+          z-index: 900;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.3rem;
         }
 
         .detailForm {

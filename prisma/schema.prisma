@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:syncmaster1898@localhost:3306/Jcommerce"
+  url      = "mysql://root:<password>@localhost:3306/Jcommerce"
 }
 
 model User {

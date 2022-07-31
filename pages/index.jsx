@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 
 const data = [
@@ -27,7 +28,13 @@ export default function Home() {
           <h1>بارکد</h1>
           <h2>پلتفرم مارکتینگ و تبلیغات مجازی</h2>
           <h3>گروه بارکد اینجاست تا کسب و کار شمارو در سطح گسترده ای به عرصه ی نمایش بگذارد</h3>
+          <Link href="/shop">
+            <span className="btn">لیست اکانت ها</span>
+          </Link>
         </div>
+      </div>
+      <div className="Glass why">
+        <h4>چرا بارکد ؟</h4>
       </div>
       <div className="Glass section section2 ">
         <div className="panel">
@@ -73,6 +80,7 @@ export default function Home() {
           margin-left: 2vw;
         }
         .text {
+          position: relative;
           width: 60%;
           height: 100%;
           padding-top: 1rem;
@@ -115,6 +123,17 @@ export default function Home() {
             background-position: left center;
           }
         }
+        .btn {
+          position: absolute;
+          bottom: 12%;
+          align-self: center;
+          padding: 1rem 2rem;
+          background-color: var(--dark-green);
+          font-size: 1.6vw;
+          color: white;
+          border-radius: 1rem;
+          cursor: pointer;
+        }
         .section {
           margin-top: 5vh;
           width: 90%;
@@ -122,6 +141,19 @@ export default function Home() {
           display: flex;
           align-items: center;
           justify-content: space-between;
+        }
+        .why {
+          width: 100%;
+          height: 55vh;
+          margin-top: 5vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          color: white;
+        }
+        .why h4 {
+          font-size: 8vw;
         }
         .section2 {
           justify-content: space-evenly;

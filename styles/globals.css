@@ -5,7 +5,7 @@
   --min-height: calc(100vh - (var(--nav-height) + var(--nav-margin)));
   --blue: rgb(49, 102, 251);
   --light-blue: rgba(49, 103, 251, 0.5);
-  --dark-green: rgb(52, 184, 52);
+  --dark-green: rgb(81, 194, 81);
   --light-green: rgba(100, 255, 100, 0.7);
 }
 

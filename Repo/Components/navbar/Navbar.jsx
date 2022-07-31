@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useContext } from "react";
 import { root } from "../../Context/Global/API";
 
@@ -12,7 +13,7 @@ export default function Navbar() {
         <span>جستوجو</span>
       </div>
       <div className="auth">
-        <span>{IsLoggedIn && UserIsCompleted ? User.LastName : IsLoggedIn && !UserIsCompleted ? "تکمیل" : "ورود"}</span>
+        {IsLoggedIn && UserIsCompleted ? <Link href="/account">{User.LastName}</Link> : IsLoggedIn && !UserIsCompleted ? <Link href="/account">تکمیل حساب</Link> : <Link href="/auth">ورود</Link>}
       </div>
       <style jsx>{`
         .Navbar {
